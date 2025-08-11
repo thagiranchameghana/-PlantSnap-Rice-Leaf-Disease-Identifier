@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PlantSnap - Rice Leaf Disease Identifier</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>🌿 PlantSnap - Rice Leaf Disease Identifier</h1>
+    <p>Upload an image of a rice leaf to identify its disease type.</p>
+
+    <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" accept="image/png, image/jpeg" required><br>
+        <button type="submit">Predict</button>
+    </form>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if species %}
+        <div class="result">
+            <h2>Prediction: {{ species }}</h2>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: {{ confidence * 100 }}%;">
+                    {{ (confidence * 100) | round(2) }}%
+                </div>
+            </div>
+            {% if uploaded_image %}
+                <img src="{{ url_for('static', filename='uploads/' + uploaded_image) }}" alt="Uploaded Leaf">
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>
